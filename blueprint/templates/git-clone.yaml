@@ -1,9 +1,24 @@
+{{- $group := .Values.global.compositionGroup }}
+{{- $version := .Values.global.compositionInstalledVersion }}
+{{- $kind := .Values.global.compositionKind }}
+{{- $namespace := .Values.global.compositionNamespace }}
+{{- $name := .Values.global.compositionName }}
+{{- $gv := printf "%s/%s" $group $version }}
+{{- $cr := lookup $gv $kind $namespace $name }}
 apiVersion: git.krateo.io/v1alpha1
 kind: Repo
 metadata:
   name: {{ .Release.Name }}-repo
   labels:
     {{- include "frontend-github-scaffolding.labels" . | nindent 4 }}
+  annotations:
+    {{- if $cr }}
+      {{- $annotations := $cr.metadata.annotations | default dict }}
+      {{- if or (not (hasKey $annotations "krateo.io/paused")) (ne (index $annotations "krateo.io/paused") "true") }}
+    krateo.io/paused: "true"
+    {{- else }}
+    krateo.io/paused: "false"
+    {{- end }}
 spec:
   unsupportedCapabilities: {{ .Values.git.unsupportedCapabilities }}
   insecure: {{ .Values.git.insecure }}

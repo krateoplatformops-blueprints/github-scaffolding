@@ -16,8 +16,9 @@ metadata:
       {{- $annotations := $cr.metadata.annotations | default dict }}
       {{- if or (not (hasKey $annotations "krateo.io/paused")) (ne (index $annotations "krateo.io/paused") "true") }}
     krateo.io/paused: "true"
-    {{- else }}
+      {{- else }}
     krateo.io/paused: "false"
+      {{- end }}
     {{- end }}
 spec:
   unsupportedCapabilities: {{ .Values.git.unsupportedCapabilities }}

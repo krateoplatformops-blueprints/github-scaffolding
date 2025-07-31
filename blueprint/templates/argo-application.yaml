@@ -1,3 +1,10 @@
+{{- $group := .Values.global.compositionGroup }}
+{{- $version := .Values.global.compositionInstalledVersion }}
+{{- $kind := .Values.global.compositionKind }}
+{{- $namespace := .Values.global.compositionNamespace }}
+{{- $name := .Values.global.compositionName }}
+{{- $gv := printf "%s/%s" $group $version }}
+{{- $cr := lookup $gv $kind $namespace $name }}
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:

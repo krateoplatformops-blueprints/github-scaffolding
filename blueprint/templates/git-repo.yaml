@@ -1,8 +1,11 @@
-{{- $group := .Values.global.compositionGroup }}
-{{- $version := .Values.global.compositionInstalledVersion }}
-{{- $kind := .Values.global.compositionKind }}
-{{- $namespace := .Values.global.compositionNamespace }}
-{{- $name := .Values.global.compositionName }}
+{{- $global := .Values.global | default (dict) }}
+
+{{- $group := dig "compositionGroup" "" $global | default "" }}
+{{- $version := dig "compositionInstalledVersion" "" $global | default "" }}
+{{- $kind := dig "compositionKind" "" $global | default "" }}
+{{- $namespace := dig "compositionNamespace" "" $global | default "" }}
+{{- $name := dig "compositionName" "" $global | default "" }}
+
 {{- $gv := printf "%s/%s" $group $version }}
 {{- $cr := lookup $gv $kind $namespace $name }}
 apiVersion: github.kog.krateo.io/v1alpha1

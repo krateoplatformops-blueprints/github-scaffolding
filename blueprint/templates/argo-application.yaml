@@ -14,15 +14,19 @@ spec:
   destination:
     server: {{ .Values.argocd.application.destination.server }}
     namespace: {{ .Values.argocd.application.destination.namespace }}
-  {{- if and (hasKey .Values.global "globallyPaused") .Values.global.globallyPaused }}
-  syncPolicy: {}
-  {{- else if .Values.argocd.application.syncEnabled }}
-  syncPolicy:
-    automated:
-      prune: {{ default false .Values.argocd.application.syncPolicy.automated.prune }}
-      selfHeal: {{ default false .Values.argocd.application.syncPolicy.automated.selfHeal }}
-    syncOptions:
-      - CreateNamespace=true
-  {{- else }}
-  syncPolicy: {}
-  {{- end }}
+    {{- $paused := dig "global" "globallyPaused" false .Values }}
+    {{- $syncEnabled := default false .Values.argocd.application.syncEnabled }}
+
+    {{- if $paused }}
+    syncPolicy: {}
+    {{- else if $syncEnabled }}
+    syncPolicy:
+      automated:
+        prune: {{ default false .Values.argocd.application.syncPolicy.automated.prune }}
+        selfHeal: {{ default false .Values.argocd.application.syncPolicy.automated.selfHeal }}
+      syncOptions:
+        - CreateNamespace=true
+    {{- else }}
+    syncPolicy: {}
+    {{- end }}
+

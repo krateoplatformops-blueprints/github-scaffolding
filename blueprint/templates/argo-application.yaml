@@ -14,17 +14,17 @@ spec:
   destination:
     server: {{ .Values.argocd.application.destination.server }}
     namespace: {{ .Values.argocd.application.destination.namespace }}
-  syncPolicy:
-    {{- if and .Values.global (eq (toString .Values.global.gracefullyPaused) "false") }}
-    automated: {}
-    {{- else }}
-    {{- if .Values.argocd.application.syncEnabled }}
+  {{- if and .Values.global (eq (toString .Values.global.gracefullyPaused) "false") }}
+  {{- if .Values.argocd.application.syncEnabled }}
+  syncPolicy:    
     automated:
       prune: {{ .Values.argocd.application.syncPolicy.automated.prune }}
       selfHeal: {{ .Values.argocd.application.syncPolicy.automated.selfHeal }}
-    {{- else }}
-    automated: {}
-    {{- end }}
-    {{- end }}
     syncOptions:
       - CreateNamespace=true
+  {{- else}}
+  syncPolicy: {}
+  {{- end}}
+  {{- else}}
+  syncPolicy: {}
+  {{- end}}

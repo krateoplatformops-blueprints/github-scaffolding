@@ -19,7 +19,7 @@ This Blueprint implements the following steps:
 ```sh
 helm repo add krateo https://charts.krateo.io
 helm repo update krateo
-helm install github-provider-kog krateo/github-provider-kog --namespace krateo-system --create-namespace --wait --version 0.2.0 \
+helm install github-provider-kog krateo/github-provider-kog --namespace krateo-system --create-namespace --wait --version 0.2.1 \
   --set restdefinitions.collaborator.enabled=false \
   --set restdefinitions.teamrepo.enabled=false \
   --set restdefinitions.workflow.enabled=false \

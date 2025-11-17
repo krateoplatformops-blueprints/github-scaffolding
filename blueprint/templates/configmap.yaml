@@ -1,13 +1,22 @@
+{{- $root := . }}
+{{- $name := .Release.Name }}
+{{- with .Values.git }}
+{{- range $j, $d := . }}
+{{- if $d.toRepo.name -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Release.Name }}-replace-values
+  name: {{ $name }}-replace-values-{{ $d.toRepo.name }}
   labels:
-    {{- include "github-scaffolding.labels" . | nindent 4 }}
+    {{- include "github-scaffolding.labels" $root | nindent 4 }}
 data:
   values: |
-    { "organizationName": "{{ .Values.git.toRepo.org }}",
-      "repositoryName": "{{ .Values.git.toRepo.name }}",
-      "serviceType": "{{ .Values.app.service.type }}",
-      "servicePort": "{{ .Values.app.service.port }}"
+    { "organizationName": "{{ $d.toRepo.org }}",
+      "repositoryName": "{{ $d.toRepo.name }}",
+      "serviceType": "{{ $root.Values.app.service.type }}",
+      "servicePort": "{{ $root.Values.app.service.port }}"
     }
+---
+{{- end }}
+{{- end }}
+{{- end }}

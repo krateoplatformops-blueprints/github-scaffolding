@@ -8,7 +8,7 @@
 apiVersion: git.krateo.io/v1alpha1
 kind: Repo
 metadata:
-  name: {{ $name }}-repo-{{ $d.toRepo.name }}
+  name: {{ $name }}-repo-{{ $j }}
   labels:
     {{- include "github-scaffolding.labels" $root | nindent 4 }}
   annotations:

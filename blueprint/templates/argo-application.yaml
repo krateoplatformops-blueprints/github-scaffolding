@@ -6,7 +6,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: {{ $name }}-{{ $d.toRepo.name }}
+  name: {{ $name }}-{{ $j }}
   namespace: {{ $root.Values.argocd.namespace }}
   labels:
     {{- include "github-scaffolding.labels" $root | nindent 4 }}

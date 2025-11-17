@@ -1,7 +1,7 @@
 {{- $root := . }}
 {{- $name := .Release.Name }}
-{{- with .Values.git }}
-{{- range $j, $d := . }}
+{{- $repos := (include "github-scaffolding.toRepoUnique" . | fromYamlArray) }}
+{{- range $j, $d := $repos }}
 {{- if $d.toRepo.name -}}
 apiVersion: v1
 kind: ConfigMap
@@ -17,6 +17,5 @@ data:
       "servicePort": "{{ $root.Values.app.service.port }}"
     }
 ---
-{{- end }}
 {{- end }}
 {{- end }}

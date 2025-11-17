@@ -20,7 +20,6 @@ spec:
     namespace: {{ $namespace }}
     name: {{ $name }}-replace-values
     key: values
-
   fromRepo:
     url: {{ include "github-scaffolding.fromRepoUrl" $d }}
     branch: {{ $d.fromRepo.branch }}
@@ -30,7 +29,6 @@ spec:
       namespace: {{ $d.fromRepo.credentials.secretRef.namespace }}
       name: {{ $d.fromRepo.credentials.secretRef.name }}
       key: {{ $d.fromRepo.credentials.secretRef.key }}
-
   toRepo:
     url: {{ include "github-scaffolding.toRepoUrl" $d }}
     branch: {{ $d.toRepo.branch }}

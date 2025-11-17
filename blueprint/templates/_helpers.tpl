@@ -62,6 +62,24 @@ Create the name of the service account to use
 {{- end }}
 
 {{/*
+Generate a unique list of toRepo objects (without the path field)
+*/}}
+{{- define "github-scaffolding.toRepoUnique" -}}
+{{- $compare := list }}
+{{- $out := list }}
+{{- with .Values.git }}
+{{- range $j, $d := . }}
+{{- $clean := omit $d.toRepo "path" "branch" }}
+{{- if not (has $clean $compare) }}
+{{- $compare = append $out $clean }}
+{{- $out = append $out $d }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- toYaml $out }}
+{{- end }}
+
+{{/*
 Compose toRepo URL using a repo object ($d)
 */}}
 {{- define "github-scaffolding.toRepoUrl" -}}

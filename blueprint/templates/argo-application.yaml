@@ -1,8 +1,7 @@
 {{- $root := . }}
 {{- $name := .Release.Name }}
-{{- with .Values.git }}
-{{- range $j, $d := . }}
-{{- if $d.toRepo.name -}}
+{{- $repos := (include "github-scaffolding.toRepoUnique" . | fromYamlArray) }}
+{{- range $j, $d := $repos }}
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -38,6 +37,4 @@ spec:
   syncPolicy: {}
   {{- end }}
 ---
-{{- end }}
-{{- end }}
 {{- end }}

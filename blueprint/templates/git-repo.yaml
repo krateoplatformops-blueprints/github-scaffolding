@@ -1,8 +1,8 @@
 {{- $root := . }}
 {{- $name := .Release.Name }}
 {{- $gracefullyPaused := default false (and .Values.global .Values.global.gracefullyPaused) }}
-{{- with .Values.git }}
-{{- range $j, $d := . }}
+{{- $repos := (include "github-scaffolding.toRepoUnique" . | fromYamlArray) }}
+{{- range $j, $d := $repos }}
 {{- if $d.toRepo.name -}}
 apiVersion: github.ogen.krateo.io/v1alpha1
 kind: Repo
@@ -23,6 +23,5 @@ spec:
   private: {{ $d.toRepo.private }}
   auto_init: {{ $d.toRepo.initialize }}
 ---
-{{- end }}
 {{- end }}
 {{- end }}

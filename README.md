@@ -145,7 +145,7 @@ app:
     type: NodePort
     port: 31180
 git:
-  unsupportedCapabilities: true
+- unsupportedCapabilities: true
   insecure: true
   fromRepo:
     scmUrl: https://github.com
@@ -240,7 +240,7 @@ spec:
       type: NodePort
       port: 31180
   git:
-    unsupportedCapabilities: true
+  - unsupportedCapabilities: true
     insecure: true
     fromRepo:
       scmUrl: https://github.com

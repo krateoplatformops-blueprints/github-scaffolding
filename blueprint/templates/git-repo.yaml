@@ -1,18 +1,27 @@
+{{- $root := . }}
+{{- $name := .Release.Name }}
+{{- $gracefullyPaused := default false (and .Values.global .Values.global.gracefullyPaused) }}
+{{- $repos := (include "github-scaffolding.toRepoUnique" . | fromYamlArray) }}
+{{- range $j, $d := $repos }}
+{{- if $d.toRepo.name -}}
 apiVersion: github.ogen.krateo.io/v1alpha1
 kind: Repo
 metadata:
-  name: {{ .Release.Name }}-repo
+  name: {{ $name }}-repo-{{ $j }}
   labels:
-    {{- include "github-scaffolding.labels" . | nindent 4 }}
+    {{- include "github-scaffolding.labels" $root | nindent 4 }}
   annotations:
-    krateo.io/connector-verbose: "{{ .Values.git.toRepo.verbose }}"
-    krateo.io/deletion-policy: {{ .Values.git.toRepo.deletionPolicy | lower }}
-    krateo.io/paused: "{{ default false (and .Values.global .Values.global.gracefullyPaused) }}"
+    krateo.io/connector-verbose: "{{ $d.toRepo.verbose }}"
+    krateo.io/deletion-policy: {{ $d.toRepo.deletionPolicy | lower }}
+    krateo.io/paused: "{{ $gracefullyPaused }}"
 spec:
   configurationRef:
-    name: {{ .Values.git.toRepo.configurationRef.name }}
-    namespace: {{ .Values.git.toRepo.configurationRef.namespace }}
-  org: {{ .Values.git.toRepo.org }}
-  name: {{ .Values.git.toRepo.name }}
-  private: {{ .Values.git.toRepo.private }}
-  auto_init: {{ .Values.git.toRepo.initialize }}
+    name: {{ $d.toRepo.configurationRef.name }}
+    namespace: {{ $d.toRepo.configurationRef.namespace }}
+  org: {{ $d.toRepo.org }}
+  name: {{ $d.toRepo.name }}
+  private: {{ $d.toRepo.private }}
+  auto_init: {{ $d.toRepo.initialize }}
+---
+{{- end }}
+{{- end }}

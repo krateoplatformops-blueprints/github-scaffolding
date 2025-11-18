@@ -62,15 +62,35 @@ Create the name of the service account to use
 {{- end }}
 
 {{/*
-Compose toRepo URL
+Generate a unique list of toRepo objects (without the path field)
 */}}
-{{- define "github-scaffolding.toRepoUrl" -}}
-{{- printf "%s/%s/%s" .Values.git.toRepo.scmUrl .Values.git.toRepo.org .Values.git.toRepo.name }}
+{{- define "github-scaffolding.toRepoUnique" -}}
+{{- $compare := list }}
+{{- $out := list }}
+{{- with .Values.git }}
+{{- range $j, $d := . }}
+{{- $clean := omit $d.toRepo "path" "branch" }}
+{{- if not (has $clean $compare) }}
+{{- $compare = append $out $clean }}
+{{- $out = append $out $d }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- toYaml $out }}
 {{- end }}
 
 {{/*
-Compose fromRepo URL
+Compose toRepo URL using a repo object ($d)
+*/}}
+{{- define "github-scaffolding.toRepoUrl" -}}
+{{- $d := . -}}
+{{- printf "%s/%s/%s" $d.toRepo.scmUrl $d.toRepo.org $d.toRepo.name }}
+{{- end }}
+
+{{/*
+Compose fromRepo URL using a repo object ($d)
 */}}
 {{- define "github-scaffolding.fromRepoUrl" -}}
-{{- printf "%s/%s/%s" .Values.git.fromRepo.scmUrl .Values.git.fromRepo.org .Values.git.fromRepo.name }}
+{{- $d := . -}}
+{{- printf "%s/%s/%s" $d.fromRepo.scmUrl $d.fromRepo.org $d.fromRepo.name }}
 {{- end }}

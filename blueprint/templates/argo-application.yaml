@@ -1,34 +1,40 @@
+{{- $root := . }}
+{{- $name := .Release.Name }}
+{{- $repos := (include "github-scaffolding.toRepoUnique" . | fromYamlArray) }}
+{{- range $j, $d := $repos }}
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: {{ .Release.Name }}
-  namespace: {{ .Values.argocd.namespace }}
+  name: {{ $name }}-{{ $j }}
+  namespace: {{ $root.Values.argocd.namespace }}
   labels:
-    {{- include "github-scaffolding.labels" . | nindent 4 }}
+    {{- include "github-scaffolding.labels" $root | nindent 4 }}
 spec:
-  project: {{ .Values.argocd.application.project | default "default" }}
+  project: {{ $root.Values.argocd.application.project | default "default" }}
   source:
-    repoURL: {{ include "github-scaffolding.toRepoUrl" . }}
-    targetRevision: {{ .Values.git.toRepo.branch }}
-    path: {{ .Values.argocd.application.source.path }}
+    repoURL: {{ include "github-scaffolding.toRepoUrl" $d }}
+    targetRevision: {{ $d.toRepo.branch }}
+    path: {{ $root.Values.argocd.application.source.path }}
   destination:
-    server: {{ .Values.argocd.application.destination.server }}
-    namespace: {{ .Values.argocd.application.destination.namespace }}
+    server: {{ $root.Values.argocd.application.destination.server }}
+    namespace: {{ $root.Values.argocd.application.destination.namespace }}
 
   {{- /* Normalize flags */ -}}
-  {{- $hasPaused   := and .Values.global (hasKey .Values.global "gracefullyPaused") -}}
-  {{- $paused      := and $hasPaused (eq (toString .Values.global.gracefullyPaused) "true") -}}
-  {{- $syncEnabled := default false .Values.argocd.application.syncEnabled -}}
+  {{- $hasPaused   := and $root.Values.global (hasKey $root.Values.global "gracefullyPaused") -}}
+  {{- $paused      := and $hasPaused (eq (toString $root.Values.global.gracefullyPaused) "true") -}}
+  {{- $syncEnabled := default false $root.Values.argocd.application.syncEnabled -}}
 
   {{- if $paused }}
   syncPolicy: {}
   {{- else if $syncEnabled }}
   syncPolicy:
     automated:
-      prune: {{ default false .Values.argocd.application.syncPolicy.automated.prune }}
-      selfHeal: {{ default false .Values.argocd.application.syncPolicy.automated.selfHeal }}
+      prune: {{ default false $root.Values.argocd.application.syncPolicy.automated.prune }}
+      selfHeal: {{ default false $root.Values.argocd.application.syncPolicy.automated.selfHeal }}
     syncOptions:
       - CreateNamespace=true
   {{- else }}
   syncPolicy: {}
   {{- end }}
+---
+{{- end }}

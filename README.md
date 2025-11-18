@@ -120,7 +120,7 @@ Download Helm Chart values:
 ```sh
 helm repo add marketplace https://marketplace.krateo.io
 helm repo update marketplace
-helm inspect values marketplace/github-scaffolding --version 1.0.0 > ~/github-scaffolding-values.yaml
+helm inspect values marketplace/github-scaffolding --version 2.0.0 > ~/github-scaffolding-values.yaml
 ```
 
 Modify the *github-scaffolding-values.yaml* file as the following example:
@@ -215,7 +215,7 @@ Install the Blueprint using, as metadata.name, the *Composition* name (the Helm 
 
 ```sh
 cat <<EOF | kubectl apply -f -
-apiVersion: composition.krateo.io/v1-0-0
+apiVersion: composition.krateo.io/v2-0-0
 kind: GithubScaffolding
 metadata:
   name: <release-name> 
@@ -305,7 +305,7 @@ metadata:
 spec:
   blueprint:
     url: https://marketplace.krateo.io
-    version: 1.0.0 # this is the Blueprint version
+    version: 2.0.0 # this is the Blueprint version
     hasPage: false
   form:
     alphabeticalOrder: false

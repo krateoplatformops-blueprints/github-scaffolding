@@ -134,6 +134,7 @@
     "git": {
       "additionalProperties": false,
       "description": "Git Repository parameters section",
+      "type": "array",
       "items": {
         "properties": {
           "fromRepo": {

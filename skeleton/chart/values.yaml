@@ -4,7 +4,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-replicaCount: <% replicas %>
+replicaCount: 1
 
 image:
   repository: ghcr.io/<% organizationName %>/<% repositoryName %>

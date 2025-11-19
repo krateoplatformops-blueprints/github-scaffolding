@@ -14,7 +14,8 @@ data:
     { "organizationName": "{{ $d.toRepo.org }}",
       "repositoryName": "{{ $d.toRepo.name }}",
       "serviceType": "{{ $root.Values.app.service.type }}",
-      "servicePort": "{{ $root.Values.app.service.port }}"
+      "servicePort": "{{ $root.Values.app.service.port }}",
+      "replicas": "{{ $root.Values.app.replicas }}"
     }
 ---
 {{- end }}

@@ -1,2 +1,4 @@
-skeleton/.github/**
-skeleton/chart/templates/**
+skeleton-frontend/.github/**
+skeleton-frontend/chart/templates/**
+skeleton-backend/.github/**
+skeleton-backend/chart/templates/**

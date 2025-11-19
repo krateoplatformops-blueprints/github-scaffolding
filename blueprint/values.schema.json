@@ -101,6 +101,12 @@
       "additionalProperties": false,
       "description": "Helm Chart parameters section",
       "properties": {
+        "replicas": {
+          "default": 1,
+          "description": "Helm Chart replicas parameter",
+          "title": "replicas",
+          "type": "integer"
+        },
         "service": {
           "additionalProperties": false,
           "description": "Helm Chart service parameters section",
@@ -373,7 +379,6 @@
             "type": "boolean"
           }
         },
-        "title": "git",
         "type": "object",
         "required": [
           "toRepo"

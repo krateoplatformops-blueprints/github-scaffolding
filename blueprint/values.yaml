@@ -82,6 +82,12 @@ argocd:
 # @schema
 app:
   # @schema
+  # description: Helm Chart replicas parameter
+  # type: integer
+  # default: 1
+  # @schema
+  replicas: 1
+  # @schema
   # description:  Helm Chart service parameters section
   # type: object
   # @schema
@@ -92,7 +98,7 @@ app:
     # enum:
     # - NodePort
     # - LoadBalancer
-    # deault: NodePort
+    # default: NodePort
     # @schema
     type: NodePort
     # @schema
@@ -264,7 +270,7 @@ git:
     org: krateoplatformops-blueprints
     name: github-scaffolding
     branch: main
-    path: skeleton/
+    path: skeleton-frontend/
     credentials:
       authMethod: generic
       secretRef:

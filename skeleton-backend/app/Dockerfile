@@ -1,7 +1,9 @@
 FROM openeuler/spring-boot:latest
-LABEL maintainer "Krateo <contact@krateoplatformops.io>"
+LABEL maintainer="Krateo <contact@krateo.io>"
 
-WORKDIR /tmp/features
-COPY ./features .
+ENV PORT=8080
+EXPOSE 8080
 
-RUN ls
+COPY features /features
+
+RUN ls -la /features

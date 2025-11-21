@@ -23,21 +23,25 @@ spec:
   fromRepo:
     url: {{ include "github-scaffolding.fromRepoUrl" $d }}
     branch: {{ $d.fromRepo.branch }}
-    authMethod: {{ $d.fromRepo.credentials.authMethod }}
     path: {{ $d.fromRepo.path }}
+    {{- with $d.fromRepo.credentials }}
+    authMethod: {{ .authMethod }}
     secretRef:
-      namespace: {{ $d.fromRepo.credentials.secretRef.namespace }}
-      name: {{ $d.fromRepo.credentials.secretRef.name }}
-      key: {{ $d.fromRepo.credentials.secretRef.key }}
+      namespace: {{ .secretRef.namespace }}
+      name: {{ .secretRef.name }}
+      key: {{ .secretRef.key }}
+    {{- end }}
   toRepo:
     url: {{ include "github-scaffolding.toRepoUrl" $d }}
     branch: {{ $d.toRepo.branch }}
-    authMethod: {{ $d.toRepo.credentials.authMethod }}
     path: {{ $d.toRepo.path }}
+    {{- with $d.toRepo.credentials }}
+    authMethod: {{ .authMethod }}
     secretRef:
-      namespace: {{ $d.toRepo.credentials.secretRef.namespace }}
-      name: {{ $d.toRepo.credentials.secretRef.name }}
-      key: {{ $d.toRepo.credentials.secretRef.key }}
+      namespace: {{ .secretRef.namespace }}
+      name: {{ .secretRef.name }}
+      key: {{ .secretRef.key }}
+    {{- end }}
 ---
 {{- end }}
 {{- end }}

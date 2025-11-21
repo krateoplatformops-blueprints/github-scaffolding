@@ -305,7 +305,7 @@ metadata:
 spec:
   blueprint:
     url: https://marketplace.krateo.io
-    version: 2.0.0 # this is the Blueprint version
+    version: 2.0.1 # this is the Blueprint version
     hasPage: false
   form:
     alphabeticalOrder: false

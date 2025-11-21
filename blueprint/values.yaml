@@ -104,8 +104,8 @@ app:
     # @schema
     # description: Helm Chart service port
     # type: integer
-    # minimum: 30000
-    # maximum: 32767
+    # minimum: 1
+    # maximum: 65535
     # default: 31180
     # @schema
     port: 31180

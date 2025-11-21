@@ -124,8 +124,8 @@
             "port": {
               "default": 31180,
               "description": "Helm Chart service port",
-              "maximum": 32767,
-              "minimum": 30000,
+              "maximum": 65535,
+              "minimum": 1,
               "title": "port",
               "type": "integer"
             }

@@ -18,7 +18,7 @@ spec:
   insecure: {{ $d.insecure }}
   configMapKeyRef:
     namespace: {{ $namespace }}
-    name: {{ $name }}-replace-values
+    name: {{ $name }}-replace-values-{{ $j }}
     key: values
   fromRepo:
     url: {{ include "github-scaffolding.fromRepoUrl" $d }}

@@ -87,7 +87,7 @@ EOF
 ### Wait for GitHub Provider to be ready
 
 ```sh
-kubectl wait restdefinitions.ogen.krateo.io github-provider-kog-repo --for condition=Ready=True --namespace krateo-system --timeout=300s
+kubectl wait restdefinitions.ogen.krateo.io github-provider-kog-repo-repo --for condition=Ready=True --namespace krateo-system --timeout=300s
 ```
 
 ### Create a RepoConfiguration Custom Resource
@@ -120,7 +120,7 @@ Download Helm Chart values:
 ```sh
 helm repo add marketplace https://marketplace.krateo.io
 helm repo update marketplace
-helm inspect values marketplace/github-scaffolding --version 2.0.0 > ~/github-scaffolding-values.yaml
+helm inspect values marketplace/github-scaffolding --version 2.0.3 > ~/github-scaffolding-values.yaml
 ```
 
 Modify the *github-scaffolding-values.yaml* file as the following example:
@@ -152,7 +152,7 @@ git:
     org: krateoplatformops-blueprints
     name: github-scaffolding
     branch: main
-    path: skeleton/
+    path: skeleton-backend
     credentials:
       authMethod: generic
       secretRef:
@@ -187,8 +187,8 @@ helm install <release-name> github-scaffolding \
   --repo https://marketplace.krateo.io \
   --namespace <release-namespace> \
   --create-namespace \
-  -f ~/github-scaffolding-values.yaml
-  --version 1.0.0 \
+  -f ~/github-scaffolding-values.yaml \
+  --version 2.0.3 \
   --wait
 ```
 
@@ -207,7 +207,7 @@ spec:
   chart:
     repo: github-scaffolding
     url: https://marketplace.krateo.io
-    version: 1.0.0
+    version: 2.0.3
 EOF
 ```
 
@@ -215,7 +215,7 @@ Install the Blueprint using, as metadata.name, the *Composition* name (the Helm 
 
 ```sh
 cat <<EOF | kubectl apply -f -
-apiVersion: composition.krateo.io/v2-0-0
+apiVersion: composition.krateo.io/v2-0-3
 kind: GithubScaffolding
 metadata:
   name: <release-name> 
@@ -247,7 +247,7 @@ spec:
       org: krateoplatformops-blueprints
       name: github-scaffolding
       branch: main
-      path: skeleton/
+      path: skeleton-backend
       credentials:
         authMethod: generic
         secretRef:
@@ -289,7 +289,7 @@ spec:
   chart:
     repo: portal-blueprint-page
     url: https://marketplace.krateo.io
-    version: 1.0.5
+    version: 1.0.6
 EOF
 ```
 
@@ -297,15 +297,15 @@ Install the Blueprint using, as metadata.name, the *Blueprint* name (the Helm Ch
 
 ```sh
 cat <<EOF | kubectl apply -f -
-apiVersion: composition.krateo.io/v1-0-5
+apiVersion: composition.krateo.io/v1-0-6
 kind: PortalBlueprintPage
 metadata:
   name: github-scaffolding	
-  namespace: cloudnative-stack-system
+  namespace: demo-system
 spec:
   blueprint:
     url: https://marketplace.krateo.io
-    version: 2.0.2 # this is the Blueprint version
+    version: 2.0.3 # this is the Blueprint version
     hasPage: false
   form:
     alphabeticalOrder: false
